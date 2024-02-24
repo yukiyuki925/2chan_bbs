@@ -2,11 +2,34 @@
 
 include_once("./app/database/connect.php");
 
+$error = array();
+
 if (isset($_POST['submitButton'])) {
-  $username = $_POST['username'];
-  var_dump($username);
-  $body = $_POST['body'];
-  var_dump($body);
+
+  // 名前入力チェック
+  if(empty($_POST["username"])) {
+    $error["username"] = 'お名前を入力してください';
+  }
+
+  // コメント入力チェック
+  if(empty($_POST["body"])) {
+    $error["body"] = 'コメントを入力してください';
+  }
+
+  if(empty($error)) {
+    $post_date = date("Y-m-d H:i:s");
+
+    $sql = "INSERT into `comment` (`username`, `body`, `post_date`) VALUES (:username, :body, :post_date);";
+    $statement = $pdo->prepare($sql);
+
+    // 値をセットする
+    $statement->bindParam(":username", $_POST['username'], PDO::PARAM_STR);
+    $statement->bindParam(":body", $_POST['body'], PDO::PARAM_STR);
+    $statement->bindParam(":post_date", $post_date, PDO::PARAM_STR);
+
+    $statement->execute();
+  }
+  
 }
 
 $comment_array = array();
@@ -35,6 +58,15 @@ $comment_array = $stmt;
     <h1 class="title">2chan掲示板</h1>
     <hr>
   </header>
+
+  <!-- バリデーションのエラー文を出力 -->
+  <?php if(isset($error)): ?>
+  <ul class="errorMsg">
+    <?php foreach($error as $errors): ?>
+    <li><?php echo $errors ?></li>
+    <?php endforeach ?>
+  </ul>
+  <?php endif; ?>
 
   <!-- スレッドエリア -->
   <div class="threadWrapper">
