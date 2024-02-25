@@ -8,6 +8,15 @@ include_once("./app/functions/comment_get.php");
 
 ?>
 
+<!-- バリデーションチェックのエラー文吐きだし -->
+<?php if (isset($_POST['submitButton']) && isset($error)): ?>
+<ul class="errorMessage">
+  <?php foreach ($error as $errors) : ?>
+  <li><?php echo $errors ?></li>
+  <?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
 <!-- スレッドエリア -->
 <div class="threadWrapper">
   <div class="childWrapper">
