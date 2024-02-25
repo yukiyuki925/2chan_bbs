@@ -4,7 +4,7 @@
 include_once("./app/database/connect.php");
 include_once("./app/functions/comment_add.php");
 include_once("./app/functions/comment_get.php");
-
+include_once("./app/functions/thread_get.php");
 
 ?>
 
@@ -18,14 +18,16 @@ include_once("./app/functions/comment_get.php");
 <?php endif; ?>
 
 <!-- スレッドエリア -->
+<?php foreach ($thread_array as $thread) :?>
 <div class="threadWrapper">
   <div class="childWrapper">
     <div class="threadTitle">
       <span>[タイトル]</span>
-      <h1>掲示板作ってみた</h1>
+      <h1><?php echo $thread['title'] ?></h1>
     </div>
     <?php include('commentSection.php'); ?>
     <?php include('commentForm.php'); ?>
 
   </div>
 </div>
+<?php endforeach; ?>

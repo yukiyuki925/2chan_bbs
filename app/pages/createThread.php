@@ -2,6 +2,7 @@
 
 // データベースに接続
 include_once("../database/connect.php");
+include_once("../../app/functions/thread_add.php");
 
 ?>
 
