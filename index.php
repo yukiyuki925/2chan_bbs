@@ -17,7 +17,6 @@ include_once("./app/database/connect.php");
 
 <body>
   <?php include("./app/parts/header.php"); ?>
-  <?php include("./app/parts/validation.php"); ?>
   <?php include("./app/parts/thread.php"); ?>
   <?php include("./app/parts/newThread.php"); ?>
 </body>
