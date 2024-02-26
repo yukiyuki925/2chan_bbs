@@ -25,7 +25,11 @@ if (isset($_POST['submitButton'])) {
   if(empty($error)) {
   $post_date = date("Y-m-d H:i:s");
 
-  $sql = "INSERT INTO `comment` (`username`, `body`, `post_date`, `thread_id`) VALUES (:username, :body, :post_date, :thread_id);";
+  // トランザクション開始
+  $pdo->beginTransaction();
+
+  try {
+    $sql = "INSERT INTO `comment` (`username`, `body`, `post_date`, `thread_id`) VALUES (:username, :body, :post_date, :thread_id);";
   $stmt = $pdo->prepare($sql);
 
   // 値をセットする
@@ -35,6 +39,10 @@ if (isset($_POST['submitButton'])) {
   $stmt->bindParam(":thread_id", $_POST["threadID"], PDO::PARAM_INT);
 
   $stmt->execute();
+  $pdo->commit();
+  } catch(Exception $e) {
+    $pdo->rollBack();
+  }
   
   }
 }

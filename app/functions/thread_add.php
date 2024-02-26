@@ -33,7 +33,11 @@ if (isset($_POST['threadSubmitButton'])) {
   if(empty($error)) {
   $post_date = date("Y-m-d H:i:s");
 
-  // スレッドを追加
+  // トランザクション開始
+  $pdo->beginTransaction();
+
+  try {
+      // スレッドを追加
   $sql = "INSERT into `thread` (`title`) VALUES (:title);";
   $stmt = $pdo->prepare($sql);
 
@@ -52,6 +56,10 @@ if (isset($_POST['threadSubmitButton'])) {
   $stmt->bindParam(":title", $escaped["title"], PDO::PARAM_STR);
 
   $stmt->execute();
+  $pdo->commit();
+  } catch (Exception $e) {
+    $pdo->rollback();
+  }
   }
 
   // 掲示板ページに遷移
