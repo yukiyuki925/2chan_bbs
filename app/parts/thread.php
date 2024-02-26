@@ -2,9 +2,8 @@
 
 // データベースに接続
 include_once("./app/database/connect.php");
-include_once("./app/functions/comment_add.php");
-include_once("./app/functions/comment_get.php");
-include_once("./app/functions/thread_get.php");
+include("./app/functions/comment_add.php");
+include("./app/functions/thread_get.php");
 
 ?>
 
