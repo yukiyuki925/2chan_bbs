@@ -3,6 +3,8 @@
 // エラーを連想配列で格納
 $error = array();
 
+session_start();
+
 // 'submitButton'が送信されたら->submitボタンが押されたら
 if (isset($_POST['submitButton'])) {
 
@@ -12,6 +14,7 @@ if (isset($_POST['submitButton'])) {
   } else {
   // エスケープ処理
   $escaped['username'] = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
+  $_SESSION["username"] = $escaped["username"];
   }
 
   // コメント入力チェック
